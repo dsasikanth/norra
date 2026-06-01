@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norra — Your AI Front Desk. Every Call Answered.</title>
+<meta name="description" content="Norra is an AI front desk for local business — it answers every call, books every appointment, and never misses a lead, 24/7 and in your customers' language.">
+<style>
+  :root{
+    --bg:#07120E; --bg2:#0C1B15; --panel:rgba(255,255,255,.045); --panel2:rgba(255,255,255,.07);
+    --line:rgba(255,255,255,.10); --ink:#EAF3EE; --muted:#9AB0A6;
+    --acc:#34D399; --acc2:#7DEBC3; --amber:#F4B860; --green:#15564A;
+    --radius:18px; --maxw:1120px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  h1,h2,h3{margin:0;line-height:1.1;letter-spacing:-.02em}
+  p{margin:0}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;border-radius:999px;
+    padding:13px 24px;cursor:pointer;border:1px solid transparent;transition:transform .12s,box-shadow .12s,background .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140E;box-shadow:0 10px 30px rgba(52,211,153,.3)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{background:var(--panel)}
+  .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;pointer-events:none}
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(7,18,14,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;letter-spacing:-.02em}
+  .brand .dot{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140E;display:grid;place-items:center;font-size:18px;font-weight:900}
+  .nav-links{display:flex;gap:28px;align-items:center;font-size:15px;color:var(--muted);font-weight:500}
+  .nav-links a:hover{color:var(--ink)}
+  @media(max-width:780px){.nav-links a:not(.btn){display:none}}
+  /* hero */
+  .hero{position:relative;text-align:center;padding:90px 0 60px;overflow:hidden}
+  .hero .glow.g1{width:520px;height:520px;background:#19a877;top:-180px;left:50%;transform:translateX(-50%)}
+  .hero .glow.g2{width:360px;height:360px;background:#0d6b53;top:120px;right:-100px;opacity:.35}
+  .hero .inner{position:relative;z-index:2}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);
+    color:var(--acc2);font-weight:600;font-size:13px;padding:8px 16px;border-radius:999px;margin-bottom:26px}
+  .hero h1{font-size:62px;font-weight:850;max-width:880px;margin:0 auto 20px}
+  .hero h1 .grad{background:linear-gradient(120deg,var(--acc),var(--acc2) 60%,var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:21px;color:var(--muted);max-width:660px;margin:0 auto 32px}
+  .hero-cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+  .hero .tiny{margin-top:18px;font-size:13.5px;color:var(--muted)}
+  @media(max-width:640px){.hero h1{font-size:40px}.hero .sub{font-size:18px}}
+  /* statband */
+  .statband{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+    border-radius:20px;overflow:hidden;margin-top:56px}
+  @media(max-width:760px){.statband{grid-template-columns:repeat(2,1fr)}}
+  .sb{background:var(--bg2);padding:26px 18px;text-align:center}
+  .sb b{display:block;font-size:30px;font-weight:850;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sb span{font-size:13px;color:var(--muted)}
+  /* sections */
+  section{padding:72px 0;position:relative}
+  .eyebrow{color:var(--acc);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+  .sec-head{text-align:center;max-width:680px;margin:0 auto 50px}
+  .sec-head h2{font-size:40px;font-weight:850;margin-bottom:14px}
+  .sec-head p{color:var(--muted);font-size:18px}
+  @media(max-width:640px){.sec-head h2{font-size:30px}}
+  /* workforce cards */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:880px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden;transition:border-color .15s,transform .15s}
+  .card:hover{border-color:rgba(52,211,153,.4);transform:translateY(-3px)}
+  .card .tag{font-size:12px;font-weight:700;color:var(--acc);letter-spacing:.06em;text-transform:uppercase}
+  .card h3{font-size:21px;font-weight:800;margin:8px 0 8px}
+  .card p{color:var(--muted);font-size:15px}
+  .card .ic{position:absolute;top:22px;right:22px;width:30px;height:30px;stroke:var(--acc);fill:none;stroke-width:2;opacity:.55}
+  /* compare */
+  .compare{max-width:920px;margin:0 auto;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--bg2)}
+  .ct{width:100%;border-collapse:collapse}
+  .ct th,.ct td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+  .ct th{font-size:14px;color:var(--muted);font-weight:600;background:rgba(255,255,255,.02)}
+  .ct th.me{color:var(--acc2)}
+  .ct td.feat{color:var(--muted)}
+  .ct td.yes{color:var(--ink);font-weight:600}
+  .ct .me{background:rgba(52,211,153,.07)}
+  .ct tr:last-child td{border-bottom:none}
+  .tick{color:var(--acc);font-weight:800}
+  .cross{color:#7c8a83}
+  @media(max-width:640px){.ct th,.ct td{padding:12px 10px;font-size:13px}}
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;text-align:center}
+  .step .num{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140E;display:grid;place-items:center;font-weight:900;font-size:19px;margin:0 auto 16px}
+  .step h3{font-size:18px;font-weight:800;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:15px}
+  /* who */
+  .who{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:780px;margin:0 auto}
+  .chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:10px 18px;font-weight:600;font-size:15px;color:var(--ink)}
+  /* human + ai */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:920px;margin:0 auto}
+  @media(max-width:760px){.duo{grid-template-columns:1fr}}
+  .duocard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .duocard.alt{border-color:rgba(52,211,153,.32);background:rgba(52,211,153,.05)}
+  .duotag{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--acc);margin-bottom:16px}
+  .duocard ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:13px}
+  .duocard li{position:relative;padding-left:24px;font-size:15.5px;color:var(--ink)}
+  .duocard li::before{content:"›";position:absolute;left:4px;top:-2px;color:var(--acc);font-weight:800;font-size:19px}
+  /* trust */
+  .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:920px;margin:0 auto}
+  @media(max-width:760px){.trust{grid-template-columns:1fr}}
+  .tcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .tcard h3{font-size:17px;font-weight:800;margin-bottom:7px}
+  .tcard p{color:var(--muted);font-size:14.5px}
+  /* pricing */
+  .price{background:linear-gradient(160deg,var(--bg2),#0a1712);border:1px solid var(--line);border-radius:24px;padding:48px;text-align:center;max-width:680px;margin:0 auto;position:relative;overflow:hidden}
+  .price .glow{width:300px;height:300px;background:#19a877;top:-150px;left:50%;transform:translateX(-50%);opacity:.25}
+  .price .inner{position:relative;z-index:2}
+  .price .from{color:var(--muted);font-size:16px}
+  .price .amt{font-size:58px;font-weight:850;margin:6px 0}
+  .price .amt span{font-size:20px;color:var(--muted);font-weight:600}
+  .price ul{list-style:none;padding:0;margin:24px auto 28px;max-width:430px;display:flex;flex-direction:column;gap:11px;text-align:left}
+  .price li{display:flex;gap:11px;font-size:15px}
+  .tickdot{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(52,211,153,.16);color:var(--acc);display:grid;place-items:center;font-size:12px;font-weight:800}
+  /* cta */
+  .cta-band{position:relative;overflow:hidden;background:linear-gradient(135deg,#0e3b2e,#0a241c);border:1px solid var(--line);border-radius:26px;padding:60px 40px;text-align:center}
+  .cta-band .glow{width:420px;height:300px;background:#1fae7c;top:-120px;right:-60px;opacity:.4}
+  .cta-band .inner{position:relative;z-index:2}
+  .cta-band h2{font-size:40px;font-weight:850;margin-bottom:14px}
+  .cta-band p{color:#bfe6d7;font-size:18px;margin-bottom:28px}
+  @media(max-width:640px){.cta-band h2{font-size:28px}}
+  /* footer */
+  footer{padding:46px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+  .foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot-in .brand{font-size:18px;color:var(--ink)}
+  .foot-in .brand .dot{width:28px;height:28px;font-size:15px;border-radius:8px}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <div class="brand"><span class="dot">N</span> Norra</div>
+    <nav class="nav-links">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#compare">Compare</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#demo" class="btn btn-primary">Book a demo</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="wrap inner">
+    <div class="badge">AI front desk for local business</div>
+    <h1>A receptionist so natural, <span class="grad">callers won't know it's software.</span></h1>
+    <p class="sub">Norra answers your phone like your best front-desk hire — warm, human, never rushed. Underneath, it's AI: it knows your whole business by heart, never forgets, speaks four languages, and never sleeps.</p>
+    <div class="hero-cta">
+      <a href="#demo" class="btn btn-primary">Book a demo</a>
+      <a href="#capabilities" class="btn btn-ghost">See what it does</a>
+    </div>
+    <p class="tiny">Replaces the front-desk phone for clinics, trades &amp; local business · speaks your customers' language</p>
+
+    <div class="statband">
+      <div class="sb"><b>100%</b><span>of calls answered</span></div>
+      <div class="sb"><b>24/7</b><span>days, nights, weekends</span></div>
+      <div class="sb"><b>6+</b><span>languages spoken</span></div>
+      <div class="sb"><b>&lt;2s</b><span>to pick up, every time</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- HUMAN + AI -->
+<section id="human">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The difference</div>
+      <h2>Human on the surface. AI underneath.</h2>
+      <p>Your callers get a warm, natural conversation. You get the reach and memory only AI can give.</p>
+    </div>
+    <div class="duo">
+      <div class="duocard">
+        <div class="duotag">Sounds completely human</div>
+        <ul>
+          <li>A warm, natural voice — not a robotic phone menu</li>
+          <li>Replies in under a second, so there's no awkward lag</li>
+          <li>Talks naturally and handles interruptions like a person</li>
+          <li>Friendly and unrushed, and uses the caller's name</li>
+        </ul>
+      </div>
+      <div class="duocard alt">
+        <div class="duotag">Thinks like AI</div>
+        <ul>
+          <li>Knows your entire business the instant it picks up</li>
+          <li>Never forgets a price, policy, or detail</li>
+          <li>Speaks your callers' language — Hindi, Urdu, Punjabi, Mandarin &amp; more</li>
+          <li>Answers every call, 24/7/365 — and never calls in sick</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES / WORKFORCE -->
+<section id="capabilities">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Your AI front desk</div>
+      <h2>One assistant that runs the whole phone</h2>
+      <p>From the first ring to the booked appointment, Norra handles every step — so your team never has to stop what they're doing to answer the phone.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.7 2.34a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.74-1.74a2 2 0 0 1 2.11-.45c.74.34 1.53.57 2.34.7A2 2 0 0 1 22 16.92z"/></svg>
+        <div class="tag">Answer</div>
+        <h3>Picks up every call</h3>
+        <p>A warm, natural voice answers instantly — 24/7, no busy signal, no voicemail, no missed leads.</p>
+      </div>
+      <div class="card">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <div class="tag">Book</div>
+        <h3>Schedules appointments</h3>
+        <p>Checks live availability, books the slot straight into your real calendar (Google, Outlook, Jane…), and blocks the time instantly — no double-bookings, no manual entry.</p>
+      </div>
+      <div class="card">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div class="tag">Recover</div>
+        <h3>Wins back missed calls</h3>
+        <p>Any call that slips through gets an instant text-back that books the caller — turning misses into appointments.</p>
+      </div>
+      <div class="card">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>
+        <div class="tag">Translate</div>
+        <h3>Speaks their language</h3>
+        <p>Greets and helps callers in their own language — a real advantage in any community.</p>
+      </div>
+      <div class="card">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>
+        <div class="tag">Report</div>
+        <h3>Summarizes every call</h3>
+        <p>The second a call ends, you get a text or email: who called, why, and what was booked.</p>
+      </div>
+      <div class="card">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+        <div class="tag">Escalate</div>
+        <h3>Knows its limits</h3>
+        <p>Anything urgent or out of scope is transferred to a human or flagged at once. It never guesses or oversteps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section id="compare">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The comparison</div>
+      <h2>Why local businesses switch to Norra</h2>
+      <p>It does what voicemail can't and what a part-time receptionist can't — at a fraction of the cost.</p>
+    </div>
+    <div class="compare">
+      <table class="ct">
+        <thead>
+          <tr>
+            <th>What matters</th>
+            <th class="me">Norra</th>
+            <th>Voicemail / missed calls</th>
+            <th>Part-time receptionist</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="feat">Answers every call</td><td class="me yes"><span class="tick">✓</span> 24/7</td><td><span class="cross">✕</span> Most go to voicemail</td><td><span class="cross">✕</span> Only when on shift</td></tr>
+          <tr><td class="feat">Books appointments</td><td class="me yes"><span class="tick">✓</span> Into your calendar</td><td><span class="cross">✕</span></td><td><span class="tick">✓</span></td></tr>
+          <tr><td class="feat">After hours &amp; weekends</td><td class="me yes"><span class="tick">✓</span> Always on</td><td><span class="cross">✕</span></td><td><span class="cross">✕</span></td></tr>
+          <tr><td class="feat">Languages</td><td class="me yes"><span class="tick">✓</span> Many languages</td><td><span class="cross">✕</span></td><td>1–2</td></tr>
+          <tr><td class="feat">Call summaries</td><td class="me yes"><span class="tick">✓</span> Instant</td><td><span class="cross">✕</span></td><td>Manual</td></tr>
+          <tr><td class="feat">Monthly cost</td><td class="me yes">~$297</td><td>Free — but lost revenue</td><td>$2,400+</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">How it works</div>
+      <h2>Live in days. You keep your number.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Point your line to Norra</h3><p>Forward your existing number — for every call, or just after hours. Nothing changes for your callers.</p></div>
+      <div class="step"><div class="num">2</div><h3>Norra runs the call</h3><p>It answers, helps, books the appointment, captures the lead, and transfers to a person when needed.</p></div>
+      <div class="step"><div class="num">3</div><h3>You get the summary</h3><p>A clean recap hits your phone the moment the call ends. Full visibility, zero effort.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Scheduling</div>
+      <h2>Books straight into your calendar</h2>
+      <p>Callers just say a time — Norra does the rest. No app for them, no double-bookings, no manual entry for you.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">✓</div><h3>Checks live availability</h3><p>It only offers times that are actually open on your calendar — never a slot that's already taken.</p></div>
+      <div class="step"><div class="num">✓</div><h3>Blocks the slot instantly</h3><p>The moment the caller confirms, the appointment is written to your real calendar and the time is blocked.</p></div>
+      <div class="step"><div class="num">✓</div><h3>Confirms &amp; reminds</h3><p>Sends the caller a confirmation and reminders, and handles reschedules and cancellations.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:38px">
+      <div class="eyebrow" style="margin-bottom:14px">Works with the calendar you already use</div>
+      <div class="who">
+        <span class="chip">Google Calendar</span><span class="chip">Outlook</span><span class="chip">Apple Calendar</span>
+        <span class="chip">Jane</span><span class="chip">Cliniko</span><span class="chip">Acuity</span><span class="chip">Square</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow">Who it's for</div><h2>Made for appointment-based business</h2></div>
+    <div class="who">
+      <span class="chip">Physiotherapy</span><span class="chip">Chiropractic</span><span class="chip">Dental</span>
+      <span class="chip">Optometry</span><span class="chip">Massage therapy</span><span class="chip">Veterinary</span>
+      <span class="chip">Salons &amp; spas</span><span class="chip">HVAC &amp; plumbing</span><span class="chip">Electricians</span><span class="chip">Home services</span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow">Built on trust</div><h2>Local, private, and accountable</h2></div>
+    <div class="trust">
+      <div class="tcard"><h3>🔒 Privacy-first</h3><p>Compliant with local privacy laws (such as PHIPA in Ontario) for health clinics. Calls are recorded, transcribed, and summarized — collecting only what's needed to help the caller.</p></div>
+      <div class="tcard"><h3>🤝 Honest by design</h3><p>Norra introduces itself as a virtual assistant and hands the call to a real person the moment someone asks. Human-sounding, never deceptive.</p></div>
+      <div class="tcard"><h3>📍 Local support</h3><p>Set up and supported by a real, local person — not a faceless ticket queue. We answer when you need us.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow">Pricing</div><h2>One simple plan</h2><p>Less than a fraction of a receptionist — and it never calls in sick.</p></div>
+    <div class="price">
+      <div class="glow"></div>
+      <div class="inner">
+        <div class="from">From</div>
+        <div class="amt">$297<span>/month</span></div>
+        <div class="from">+ one-time setup · no long-term contract</div>
+        <ul>
+          <li><span class="tickdot">✓</span> Takes over your phone, 24/7</li>
+          <li><span class="tickdot">✓</span> Books appointments into your calendar</li>
+          <li><span class="tickdot">✓</span> Missed-call text-back &amp; lead capture</li>
+          <li><span class="tickdot">✓</span> Up to 4 languages, tuned to your business</li>
+          <li><span class="tickdot">✓</span> Call summaries &amp; local support included</li>
+        </ul>
+        <a href="#demo" class="btn btn-primary">Book a demo for a quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="demo">
+  <div class="wrap">
+    <div class="cta-band">
+      <div class="glow"></div>
+      <div class="inner">
+        <h2>Hear Norra answer a call for your business.</h2>
+        <p>Book a free 15-minute demo — we'll set up a live agent for your clinic or shop and let you call it.</p>
+        <a href="mailto:sashikanth.devops@gmail.com?subject=Norra%20demo%20request" class="btn btn-primary">Book a free demo</a>
+        <p style="margin-top:18px;font-size:14px;color:#a7d8c6">Or email <a href="mailto:sashikanth.devops@gmail.com" style="color:#fff;text-decoration:underline">sashikanth.devops@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="brand"><span class="dot">N</span> Norra</div>
+    <div>Reception with a human touch, powered by AI · norrahq.com</div>
+    <div>© 2026 Norra</div>
+  </div>
+</footer>
+
+</body>
+</html>

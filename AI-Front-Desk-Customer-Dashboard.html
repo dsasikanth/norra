@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norra — Client Portal</title>
+<style>
+  :root{
+    --bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--line:#2a3340;--ink:#e6edf3;--muted:#8b97a7;
+    --brand:#3b82f6;--brand2:#22d3ee;--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--violet:#a78bfa;--radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 500px at 85% -10%,#16263f 0%,var(--bg) 55%);color:var(--ink);min-height:100vh}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 18px 60px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo .mark{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));
+    display:grid;place-items:center;font-weight:800;color:#04121f}
+  .logo b{font-size:17px}.logo .sub{font-size:12px;color:var(--muted)}
+  .acct{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+  .acct .av{width:30px;height:30px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);font-weight:700}
+  .biz{font-size:13px;color:var(--muted);margin:2px 0 16px}
+  .biz b{color:var(--ink)}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+  @media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+  .kpi .n{font-size:25px;font-weight:800}
+  .kpi .l{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .kpi.g .n{color:var(--good)}.kpi.c .n{color:var(--brand2)}.kpi.v .n{color:var(--violet)}
+  .layout{display:grid;grid-template-columns:1.1fr 1.3fr;gap:16px}
+  @media(max-width:880px){.layout{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .card .hd{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .card .hd h3{margin:0;font-size:14px}
+  .filters{display:flex;gap:6px;flex-wrap:wrap;padding:11px 13px;border-bottom:1px solid var(--line)}
+  .filters .f{font-size:12px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:5px 11px;cursor:pointer}
+  .filters .f.on{color:#fff;border-color:var(--brand);background:#1d2c43}
+  .calls{max-height:560px;overflow-y:auto}
+  .call{display:flex;gap:12px;align-items:center;padding:12px 15px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+  .call:hover{background:var(--panel2)}.call.sel{background:#1a2740;border-left:3px solid var(--brand)}
+  .call .ic{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex-shrink:0}
+  .ic.book{background:rgba(34,197,94,.14);color:var(--good)}
+  .ic.lead{background:rgba(59,130,246,.14);color:var(--brand)}
+  .ic.order{background:rgba(167,139,250,.16);color:var(--violet)}
+  .ic.urgent{background:rgba(239,68,68,.15);color:var(--bad)}
+  .call .mid{flex:1;min-width:0}
+  .call .mid .t1{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .call .mid .t2{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .call .meta{text-align:right;flex-shrink:0}
+  .call .meta .time{font-size:11.5px;color:var(--muted)}
+  .lang{display:inline-block;font-size:10px;padding:2px 7px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);margin-top:4px}
+  .badge{display:inline-block;font-size:9.5px;padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .badge.ah{background:rgba(245,158,11,.15);color:var(--warn);border:1px solid rgba(245,158,11,.3)}
+  /* detail */
+  .detail{padding:0}
+  .det-empty{padding:60px 24px;text-align:center;color:var(--muted);font-size:13.5px}
+  .det-hd{padding:15px 17px;border-bottom:1px solid var(--line)}
+  .det-hd .who{font-size:16px;font-weight:700}
+  .det-hd .meta{font-size:12px;color:var(--muted);margin-top:3px}
+  .player{margin:14px 17px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px}
+  .player button{width:38px;height:38px;border-radius:50%;border:none;background:var(--brand);color:#fff;font-size:15px;cursor:pointer;flex-shrink:0}
+  .wave{flex:1;display:flex;align-items:center;gap:2px;height:34px;overflow:hidden}
+  .wave i{display:block;width:3px;background:#3a4a60;border-radius:2px}
+  .wave i.on{background:var(--brand2)}
+  .player .tt{font-size:11.5px;color:var(--muted);width:74px;text-align:right;flex-shrink:0}
+  .sec{padding:6px 17px 2px}.sec h4{margin:12px 0 8px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .summary{background:linear-gradient(135deg,#11243c,#0e1a2b);border:1px solid #1d3550;border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+  .summary .ai{font-size:10.5px;color:var(--brand2);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .field{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 11px}
+  .field .k{font-size:10.5px;color:var(--muted)}.field .v{font-size:13px;font-weight:600;margin-top:2px}
+  .actions{display:flex;flex-direction:column;gap:7px;padding-bottom:8px}
+  .actrow{display:flex;align-items:center;gap:9px;font-size:12.5px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 11px}
+  .actrow .dot{width:7px;height:7px;border-radius:50%;background:var(--good);flex-shrink:0}
+  .transcript{padding:4px 17px 18px;display:flex;flex-direction:column;gap:8px}
+  .turn{max-width:88%;padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.45}
+  .turn.ai{align-self:flex-start;background:#1f6feb;color:#fff;border-bottom-left-radius:4px}
+  .turn.caller{align-self:flex-end;background:#263243;border-bottom-right-radius:4px}
+  .turn .tr{display:block;font-size:11px;opacity:.7;margin-top:3px;font-style:italic}
+  .foot{margin-top:20px;font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+  .editbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin-bottom:16px;font-size:12px;color:var(--muted)}
+  .editbar input{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:7px 10px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">
+      <div class="mark">N</div>
+      <div><b id="brandName">Norra</b><div class="sub">Client Portal · AI reception</div></div>
+    </div>
+    <div class="acct"><span id="ownerName">Bailey Heating &amp; Cooling</span><div class="av" id="avatar">B</div></div>
+  </header>
+
+  <div class="editbar">
+    <span>Personalize this demo:</span>
+    <input id="brandIn" value="Norra" style="width:200px">
+    <input id="bizIn" value="Bailey Heating &amp; Cooling" style="width:230px">
+    <span style="color:var(--muted)">— this is the screen your client logs into.</span>
+  </div>
+
+  <div class="biz">Showing calls for <b id="bizLabel">Bailey Heating &amp; Cooling</b> · <span id="dateLabel">this week</span></div>
+
+  <div class="kpis">
+    <div class="kpi c"><div class="n" id="k-calls">0</div><div class="l">Calls answered</div></div>
+    <div class="kpi g"><div class="n" id="k-books">0</div><div class="l">Jobs booked</div></div>
+    <div class="kpi"><div class="n" id="k-leads">0</div><div class="l">Leads captured</div></div>
+    <div class="kpi v"><div class="n" id="k-after">0</div><div class="l">After-hours saved</div></div>
+    <div class="kpi g"><div class="n" id="k-rev">$0</div><div class="l">Est. revenue recovered</div></div>
+  </div>
+
+  <div class="layout">
+    <div class="card">
+      <div class="hd"><h3>📞 Recent calls</h3><span style="font-size:12px;color:var(--muted)" id="callCount"></span></div>
+      <div class="filters" id="filters"></div>
+      <div class="calls" id="calls"></div>
+    </div>
+    <div class="card">
+      <div class="hd"><h3>Call detail</h3><span style="font-size:12px;color:var(--muted)">recording · transcript · AI summary</span></div>
+      <div class="detail" id="detail"><div class="det-empty">Select a call on the left to see the recording, full transcript, the AI summary, and what was booked or captured.</div></div>
+    </div>
+  </div>
+
+  <div class="foot">Sample data shown for demonstration. In production these calls stream in live from the AI receptionist via webhook — owners get an SMS/email summary the moment each call ends.</div>
+</div>
+
+<script>
+// ===== Norra live data config =====
+// After deploying the Cloudflare Worker (norra-calls-worker.js), paste its URL here
+// and the Retell agent_id of the client to show. Leave NORRA_API empty to use sample data.
+const NORRA_API = "";      // e.g. "https://norra-calls.yourname.workers.dev"
+const NORRA_AGENT = "";    // e.g. the clinic's Retell agent_id
+
+const SAMPLE_CALLS = [
+  {id:1, time:"Tue · 9:42 PM", caller:"+1 905-555-0182", lang:"English", type:"book", after:true, dur:134, value:480,
+   title:"Furnace no-heat — booked for tomorrow AM",
+   summary:"After-hours caller had no heat. Ava booked a furnace repair visit for tomorrow 9–11 AM, confirmed by text. No human needed.",
+   fields:{Name:"Sandeep Rai", Service:"Furnace repair", When:"Tomorrow 9–11 AM", Phone:"905-555-0182"},
+   actions:["Booked into Google Calendar","Confirmation SMS sent to caller","Summary emailed to owner"],
+   transcript:[
+     {w:"ai",t:"Thanks for calling Bailey Heating & Cooling, this is Ava. How can I help?"},
+     {w:"caller",t:"Hi, my furnace just stopped, there's no heat at all."},
+     {w:"ai",t:"I'm sorry about that — I can get a technician out to you. Is tomorrow morning okay, or is this an emergency for tonight?"},
+     {w:"caller",t:"Tomorrow morning is fine."},
+     {w:"ai",t:"Great. I have 9 to 11 AM open. Can I get your name and address?"},
+     {w:"caller",t:"Sandeep Rai, 88 Bronte Street South."},
+     {w:"ai",t:"Perfect Sandeep, you're booked for 9–11 AM tomorrow. I'll text you a confirmation now. Anything else?"},
+     {w:"caller",t:"No that's it, thanks!"}
+   ]},
+  {id:2, time:"Tue · 8:15 PM", caller:"+1 647-555-0148", lang:"Hindi", type:"urgent", after:true, dur:108, value:0,
+   title:"Burst pipe — emergency flagged, on-call alerted",
+   summary:"Caller (in Hindi) reported a burst pipe and flooding. Ava flagged it as an emergency, alerted the on-call technician, and captured callback details.",
+   fields:{Name:"Priya S.", Issue:"Burst pipe / flooding", Address:"123 Steeles Ave E", Priority:"EMERGENCY"},
+   actions:["Marked EMERGENCY","On-call technician alerted by SMS","Owner notified immediately"],
+   transcript:[
+     {w:"ai",t:"नमस्ते, Bailey Heating & Cooling में आपका स्वागत है। मैं कैसे मदद कर सकती हूँ?", tr:"Hello, welcome to Bailey Heating & Cooling. How can I help?"},
+     {w:"caller",t:"पाइप फट गया है, पानी भर रहा है घर में!", tr:"A pipe has burst, the house is flooding!"},
+     {w:"ai",t:"यह एक इमरजेंसी है — मैं अभी on-call technician को सूचित कर रही हूँ। आपका नाम और पता बता दीजिए।", tr:"This is an emergency — I'm alerting the on-call technician now. Please give me your name and address."},
+     {w:"caller",t:"प्रिया, 123 Steeles Avenue East।", tr:"Priya, 123 Steeles Avenue East."},
+     {w:"ai",t:"धन्यवाद प्रिया, technician कुछ ही मिनटों में आपको call करेंगे।", tr:"Thank you Priya, the technician will call you in a few minutes."}
+   ]},
+  {id:3, time:"Tue · 2:05 PM", caller:"+1 905-555-0133", lang:"Punjabi", type:"book", after:false, dur:182, value:220,
+   title:"AC maintenance booked (handled in Punjabi)",
+   summary:"Caller preferred Punjabi. Ava answered in Punjabi and booked an annual AC tune-up for Thursday afternoon.",
+   fields:{Name:"Gurpreet", Service:"AC maintenance tune-up", When:"Thursday 1–3 PM", Phone:"905-555-0133"},
+   actions:["Booked into Google Calendar","Confirmation SMS sent","Summary emailed to owner"],
+   transcript:[
+     {w:"ai",t:"ਸਤ ਸ੍ਰੀ ਅਕਾਲ, Bailey Heating & Cooling. ਮੈਂ ਤੁਹਾਡੀ ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦੀ ਹਾਂ?", tr:"Hello, Bailey Heating & Cooling. How can I help you?"},
+     {w:"caller",t:"AC ਦੀ service ਕਰਾਉਣੀ ਸੀ।", tr:"I wanted to get the AC serviced."},
+     {w:"ai",t:"ਜ਼ਰੂਰ। ਵੀਰਵਾਰ ਦੁਪਹਿਰੇ 1 ਤੋਂ 3 ਵਜੇ ਠੀਕ ਹੈ?", tr:"Sure. Is Thursday 1 to 3 PM okay?"},
+     {w:"caller",t:"ਹਾਂ ਠੀਕ ਹੈ।", tr:"Yes that's fine."},
+     {w:"ai",t:"ਨਾਮ ਦੱਸ ਦਿਓ ਜੀ?", tr:"May I have your name?"},
+     {w:"caller",t:"ਗੁਰਪ੍ਰੀਤ।", tr:"Gurpreet."},
+     {w:"ai",t:"Booked! ਮੈਂ confirmation text ਭੇਜ ਰਹੀ ਹਾਂ।", tr:"Booked! I'm sending a confirmation text."}
+   ]},
+  {id:4, time:"Tue · 11:20 AM", caller:"+1 416-555-0177", lang:"Mandarin", type:"lead", after:false, dur:153, value:0,
+   title:"New AC install — quote visit booked",
+   summary:"Caller (in Mandarin) asked about a new AC installation. Ava captured the lead and booked a free in-home quote for Friday.",
+   fields:{Name:"Wei Chen", Service:"New AC installation quote", When:"Friday 1 PM", Phone:"416-555-0177"},
+   actions:["Lead captured in CRM","Quote visit booked","Summary emailed to owner"],
+   transcript:[
+     {w:"ai",t:"您好，Bailey Heating & Cooling，请问有什么可以帮您？", tr:"Hello, Bailey Heating & Cooling, how can I help you?"},
+     {w:"caller",t:"我想装一台新的空调，多少钱？", tr:"I'd like to install a new air conditioner, how much is it?"},
+     {w:"ai",t:"价格取决于您的房子大小。我们可以免费上门估价。周五下午1点方便吗？", tr:"The price depends on your home size. We can do a free in-home quote. Is Friday 1 PM okay?"},
+     {w:"caller",t:"可以。", tr:"That works."},
+     {w:"ai",t:"请问您的名字？", tr:"May I have your name?"},
+     {w:"caller",t:"陈伟。", tr:"Wei Chen."},
+     {w:"ai",t:"好的，已为您预约周五下午1点。", tr:"Great, I've booked you for Friday 1 PM."}
+   ]},
+  {id:5, time:"Tue · 7:50 AM", caller:"+1 289-555-0190", lang:"English", type:"lead", after:true, dur:0, value:0, sms:true,
+   title:"Missed call → recovered by text",
+   summary:"Call came in before opening and wasn't answered. The AI texted the caller within seconds, learned they want a quote, and saved the lead for follow-up.",
+   fields:{Name:"Marco", Need:"Quote — furnace replacement", Channel:"SMS text-back", Phone:"289-555-0190"},
+   actions:["Auto text-back sent 9 sec after missed call","Lead captured","Owner notified"],
+   transcript:[
+     {w:"ai",t:"Hi, it's Bailey Heating & Cooling 👋 Sorry we missed your call! How can we help? I can book you in right here by text."},
+     {w:"caller",t:"Need a price on replacing an old furnace"},
+     {w:"ai",t:"Happy to help. Most furnace replacements run $3,000–$6,000 installed. Want me to book a free quote visit?"},
+     {w:"caller",t:"Yes please, this week"},
+     {w:"ai",t:"Done — what's your name? I'll have someone confirm a time today."},
+     {w:"caller",t:"Marco"}
+   ]},
+  {id:6, time:"Mon · 6:30 PM", caller:"+1 647-555-0112", lang:"Hindi", type:"book", after:true, dur:140, value:350,
+   title:"Water heater consult booked",
+   summary:"Caller asked about replacing a water heater. Ava explained options briefly and booked a consultation.",
+   fields:{Name:"Amit", Service:"Water heater replacement consult", When:"Wednesday 4 PM", Phone:"647-555-0112"},
+   actions:["Booked into Google Calendar","Confirmation SMS sent","Summary emailed to owner"],
+   transcript:[
+     {w:"ai",t:"नमस्ते, Bailey Heating & Cooling। मैं कैसे मदद करूँ?", tr:"Hello, Bailey Heating & Cooling. How can I help?"},
+     {w:"caller",t:"Water heater बदलवाना है।", tr:"I need to replace the water heater."},
+     {w:"ai",t:"ठीक है, हम consultation book कर सकते हैं। बुधवार 4 बजे चलेगा?", tr:"Okay, we can book a consultation. Does Wednesday 4 PM work?"},
+     {w:"caller",t:"हाँ।", tr:"Yes."},
+     {w:"ai",t:"नाम बता दीजिए?", tr:"Your name please?"},
+     {w:"caller",t:"अमित।", tr:"Amit."},
+     {w:"ai",t:"Booked! Confirmation text भेज रही हूँ।", tr:"Booked! Sending a confirmation text."}
+   ]},
+  {id:7, time:"Mon · 4:12 PM", caller:"+1 905-555-0121", lang:"English", type:"lead", after:false, dur:65, value:0,
+   title:"Pricing question — saved for follow-up",
+   summary:"Caller asked about drain-cleaning pricing, wasn't ready to book. Ava gave a range and saved the lead so the owner can follow up.",
+   fields:{Name:"(not given)", Need:"Drain cleaning pricing", Outcome:"No booking — lead saved", Phone:"905-555-0121"},
+   actions:["Pricing range provided","Lead saved for follow-up"],
+   transcript:[
+     {w:"ai",t:"Bailey Heating & Cooling, this is Ava. How can I help?"},
+     {w:"caller",t:"How much for drain cleaning roughly?"},
+     {w:"ai",t:"Drain cleaning usually runs about $150–$350 depending on the blockage. I can book a visit for an exact quote — want me to?"},
+     {w:"caller",t:"Not yet, just checking. Thanks."},
+     {w:"ai",t:"No problem! I'll note your number in case you'd like to book later. Have a great day."}
+   ]}
+];
+
+let CALLS = SAMPLE_CALLS;
+const TYPE = {
+  book:{ic:"book",glyph:"✓",label:"Booking"},
+  lead:{ic:"lead",glyph:"✉",label:"Lead"},
+  order:{ic:"order",glyph:"🧾",label:"Order"},
+  urgent:{ic:"urgent",glyph:"!",label:"Emergency"}
+};
+let filter="all", selected=null, playTimer=null;
+const $=id=>document.getElementById(id);
+
+function kpis(){
+  const calls=CALLS.length;
+  const books=CALLS.filter(c=>c.type==="book").length;
+  const leads=CALLS.filter(c=>c.type==="lead").length;
+  const after=CALLS.filter(c=>c.after).length;
+  const rev=CALLS.reduce((s,c)=>s+(c.value||0),0);
+  $("k-calls").textContent=calls;$("k-books").textContent=books;
+  $("k-leads").textContent=leads;$("k-after").textContent=after;
+  $("k-rev").textContent="$"+rev.toLocaleString();
+}
+function renderFilters(){
+  const defs=[["all","All"],["book","Bookings"],["lead","Leads"],["urgent","Emergencies"]];
+  $("filters").innerHTML="";
+  defs.forEach(([k,l])=>{
+    const d=document.createElement("div");d.className="f"+(filter===k?" on":"");d.textContent=l;
+    d.onclick=()=>{filter=k;renderFilters();renderCalls();};$("filters").appendChild(d);
+  });
+}
+function renderCalls(){
+  const list=filter==="all"?CALLS:CALLS.filter(c=>c.type===filter);
+  $("callCount").textContent=list.length+" calls";
+  const el=$("calls");el.innerHTML="";
+  list.forEach(c=>{
+    const ty=TYPE[c.type];
+    const row=document.createElement("div");row.className="call"+(selected===c.id?" sel":"");
+    row.onclick=()=>{selected=c.id;renderCalls();renderDetail(c);};
+    row.innerHTML=`
+      <div class="ic ${ty.ic}">${ty.glyph}</div>
+      <div class="mid">
+        <div class="t1">${c.title}</div>
+        <div class="t2">${c.caller} · ${ty.label}${c.after?'<span class="badge ah">after-hours</span>':''}</div>
+      </div>
+      <div class="meta"><div class="time">${c.time}</div><div class="lang">${c.lang}</div></div>`;
+    el.appendChild(row);
+  });
+}
+function fmt(s){if(!s)return"text";const m=Math.floor(s/60),x=s%60;return m+":"+String(x).padStart(2,"0");}
+function renderDetail(c){
+  if(playTimer){clearInterval(playTimer);playTimer=null;}
+  const ty=TYPE[c.type];
+  const bars=Array.from({length:46},()=>8+Math.round(Math.random()*22));
+  const fields=Object.entries(c.fields).map(([k,v])=>`<div class="field"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+  const acts=c.actions.map(a=>`<div class="actrow"><span class="dot"></span>${a}</div>`).join("");
+  const turns=c.transcript.map(t=>`<div class="turn ${t.w}">${t.t}${t.tr?`<span class="tr">↳ ${t.tr}</span>`:""}</div>`).join("");
+  const player=c.dur>0?`
+    <div class="player">
+      <button id="playBtn">▶</button>
+      <div class="wave" id="wave">${bars.map(h=>`<i style="height:${h}px"></i>`).join("")}</div>
+      <div class="tt"><span id="cur">0:00</span> / ${fmt(c.dur)}</div>
+    </div>`:`
+    <div class="player"><div style="font-size:12.5px;color:var(--muted)">📲 Handled by SMS text-back — no voice recording</div></div>`;
+  $("detail").innerHTML=`
+    <div class="det-hd">
+      <div class="who">${c.title}</div>
+      <div class="meta">${c.caller} · ${c.lang} · ${ty.label} · ${c.time}${c.after?" · after-hours":""}</div>
+    </div>
+    ${player}
+    <div class="sec"><h4>AI summary</h4>
+      <div class="summary"><div class="ai">✨ Auto-generated · emailed to owner</div>${c.summary}</div></div>
+    <div class="sec"><h4>Captured details</h4><div class="fields">${fields}</div></div>
+    <div class="sec"><h4>What the AI did</h4><div class="actions">${acts}</div></div>
+    <div class="sec"><h4>Full transcript${c.transcript.some(t=>t.tr)?" (translated for you)":""}</h4></div>
+    <div class="transcript">${turns}</div>`;
+  const btn=$("playBtn");
+  if(btn){
+    const wave=$("wave"),is=[...wave.querySelectorAll("i")],cur=$("cur");
+    let playing=false,pos=0;
+    btn.onclick=()=>{
+      playing=!playing;btn.textContent=playing?"⏸":"▶";
+      if(playing){
+        playTimer=setInterval(()=>{
+          pos+=1;const frac=pos/c.dur;
+          is.forEach((b,i)=>b.classList.toggle("on",i/is.length<=frac));
+          cur.textContent=fmt(pos);
+          if(pos>=c.dur){clearInterval(playTimer);playTimer=null;playing=false;btn.textContent="▶";}
+        },1000*c.dur/c.dur/ (c.dur>60?6:3)); // speed up long calls
+      } else if(playTimer){clearInterval(playTimer);playTimer=null;}
+    };
+  }
+}
+// brand edits
+$("brandIn").addEventListener("input",e=>{$("brandName").textContent=e.target.value;});
+$("bizIn").addEventListener("input",e=>{
+  const v=e.target.value;$("ownerName").textContent=v;$("bizLabel").textContent=v;
+  $("avatar").textContent=(v.trim()[0]||"B").toUpperCase();
+});
+
+function render(){kpis();renderFilters();renderCalls();}
+function loadLive(){
+  if(!NORRA_API){render();return;}
+  const u=NORRA_API+(NORRA_AGENT?('?agent='+encodeURIComponent(NORRA_AGENT)):'');
+  fetch(u).then(r=>r.json()).then(d=>{
+    if(d&&Array.isArray(d.calls)&&d.calls.length){CALLS=d.calls;}
+    render();
+  }).catch(()=>render());
+}
+loadLive();
