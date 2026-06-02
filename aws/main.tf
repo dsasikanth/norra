@@ -187,3 +187,21 @@ resource "aws_s3_object" "index" {
   content_type = "text/html"
   etag         = filemd5(var.site_file)
 }
+
+# Internal demo console (passcode-gated) served at /demo
+resource "aws_s3_object" "demo" {
+  bucket       = aws_s3_bucket.site.id
+  key          = "demo"
+  source       = "../Norra-Demo-Console.html"
+  content_type = "text/html"
+  etag         = filemd5("../Norra-Demo-Console.html")
+}
+
+# Client login (placeholder) served at /login
+resource "aws_s3_object" "login" {
+  bucket       = aws_s3_bucket.site.id
+  key          = "login"
+  source       = "../login.html"
+  content_type = "text/html"
+  etag         = filemd5("../login.html")
+}

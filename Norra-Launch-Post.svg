@@ -1,0 +1,44 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a1a14"/><stop offset="1" stop-color="#06100c"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="30%" r="55%"><stop offset="0" stop-color="#1d6e54" stop-opacity="0.55"/><stop offset="1" stop-color="#06100c" stop-opacity="0"/></radialGradient>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34D399"/><stop offset="1" stop-color="#7DEBC3"/></linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect width="1080" height="1080" fill="url(#glow)"/>
+
+  <!-- brand row -->
+  <g transform="translate(0,110)">
+    <rect x="468" y="0" width="64" height="64" rx="17" fill="url(#mint)"/>
+    <text x="500" y="46" text-anchor="middle" font-size="38" font-weight="800" fill="#04140e">N</text>
+    <text x="548" y="46" font-size="38" font-weight="800" fill="#eaf3ee">Norra</text>
+  </g>
+
+  <!-- avatar -->
+  <g transform="translate(540,360)">
+    <circle r="135" fill="#0e2a20" stroke="#1f6e54" stroke-width="2"/>
+    <circle r="148" fill="none" stroke="#34D399" stroke-opacity="0.35" stroke-width="3"/>
+    <text x="0" y="42" text-anchor="middle" font-size="130" font-weight="850" fill="url(#mint)">N</text>
+    <g transform="translate(-38,98)">
+      <rect x="0" y="2" width="8" height="13" rx="4" fill="#7DEBC3"/>
+      <rect x="19" y="-7" width="8" height="30" rx="4" fill="#7DEBC3"/>
+      <rect x="38" y="-14" width="8" height="44" rx="4" fill="#7DEBC3"/>
+      <rect x="57" y="-7" width="8" height="30" rx="4" fill="#7DEBC3"/>
+      <rect x="76" y="2" width="8" height="13" rx="4" fill="#7DEBC3"/>
+    </g>
+  </g>
+
+  <!-- headline -->
+  <text x="540" y="640" text-anchor="middle" font-size="84" font-weight="850" fill="#ffffff">Meet Norra</text>
+  <text x="540" y="700" text-anchor="middle" font-size="38" font-weight="700" fill="url(#mint)">Your AI receptionist.</text>
+
+  <!-- description -->
+  <text x="540" y="800" text-anchor="middle" font-size="36" font-weight="600" fill="#d6e6de">A receptionist with a human touch —</text>
+  <text x="540" y="848" text-anchor="middle" font-size="36" font-weight="600" fill="#d6e6de">answers your calls and books visits.</text>
+
+  <!-- CTA -->
+  <g transform="translate(540,930)">
+    <rect x="-220" y="0" width="440" height="86" rx="43" fill="url(#mint)"/>
+    <text x="0" y="56" text-anchor="middle" font-size="38" font-weight="800" fill="#04140e">norrahq.com</text>
+  </g>
+</svg>

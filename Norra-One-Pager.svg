@@ -1,0 +1,62 @@
+<svg width="816" height="1056" viewBox="0 0 816 1056" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1E9E75"/><stop offset="1" stop-color="#34D399"/></linearGradient>
+  </defs>
+  <rect width="816" height="1056" fill="#ffffff"/>
+
+  <!-- header -->
+  <rect width="816" height="150" fill="#15564A"/>
+  <rect x="56" y="47" width="56" height="56" rx="15" fill="#ffffff"/>
+  <text x="84" y="88" text-anchor="middle" font-size="34" font-weight="800" fill="#15564A">N</text>
+  <text x="128" y="80" font-size="40" font-weight="800" fill="#ffffff">Norra</text>
+  <text x="130" y="116" font-size="18" font-weight="600" fill="#7DEBC3">Reception with a human touch, powered by AI.</text>
+
+  <!-- intro -->
+  <text x="56" y="225" font-size="34" font-weight="850" fill="#15211c">Your AI receptionist.</text>
+  <text x="56" y="262" font-size="18" fill="#5f6f68">An AI that answers every call, books appointments, and captures every lead — 24/7,</text>
+  <text x="56" y="286" font-size="18" fill="#5f6f68">so you never miss a customer. Built and supported for you, locally.</text>
+
+  <!-- what it does -->
+  <text x="56" y="350" font-size="22" font-weight="800" fill="#1E9E75">What Norra does</text>
+  <g font-size="18" fill="#1c2b24" font-weight="500">
+    <g transform="translate(56,385)"><circle cx="11" cy="-5" r="13" fill="#e3f5ee"/><path d="M5 -6 l4 5 l8 -10" stroke="#1E9E75" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="0">Answers every call, 24/7 — no busy signal, no voicemail</text></g>
+    <g transform="translate(56,423)"><circle cx="11" cy="-5" r="13" fill="#e3f5ee"/><path d="M5 -6 l4 5 l8 -10" stroke="#1E9E75" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="0">Books appointments straight into your calendar</text></g>
+    <g transform="translate(56,461)"><circle cx="11" cy="-5" r="13" fill="#e3f5ee"/><path d="M5 -6 l4 5 l8 -10" stroke="#1E9E75" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="0">Wins back missed calls with instant text-back</text></g>
+    <g transform="translate(56,499)"><circle cx="11" cy="-5" r="13" fill="#e3f5ee"/><path d="M5 -6 l4 5 l8 -10" stroke="#1E9E75" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="0">Speaks your customers' language</text></g>
+    <g transform="translate(56,537)"><circle cx="11" cy="-5" r="13" fill="#e3f5ee"/><path d="M5 -6 l4 5 l8 -10" stroke="#1E9E75" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="0">Texts you a clear summary of every call</text></g>
+  </g>
+
+  <!-- why -->
+  <text x="56" y="610" font-size="22" font-weight="800" fill="#1E9E75">Why Norra — done-for-you, not do-it-yourself</text>
+  <g font-size="17" fill="#3a4a44" font-weight="500">
+    <text x="56" y="644">•  We build, run &amp; support it — you never touch a dashboard.</text>
+    <text x="56" y="674">•  A real, local person — not an overseas ticket queue.</text>
+    <text x="56" y="704">•  Multilingual and tuned to your business.</text>
+  </g>
+
+  <!-- pricing -->
+  <text x="56" y="770" font-size="22" font-weight="800" fill="#1E9E75">Simple pricing</text>
+  <g>
+    <rect x="56" y="790" width="220" height="120" rx="14" fill="#f1f7f4" stroke="#dbe9e3"/>
+    <text x="76" y="828" font-size="15" font-weight="700" fill="#5f6f68">STARTER</text>
+    <text x="76" y="868" font-size="32" font-weight="850" fill="#15211c">$149<tspan font-size="16" fill="#5f6f68">/mo</tspan></text>
+    <text x="76" y="894" font-size="14" fill="#5f6f68">Solo &amp; lower volume</text>
+
+    <rect x="298" y="790" width="220" height="120" rx="14" fill="#eafaf3" stroke="#1E9E75" stroke-width="2"/>
+    <text x="318" y="828" font-size="15" font-weight="700" fill="#1E9E75">PRO · POPULAR</text>
+    <text x="318" y="868" font-size="32" font-weight="850" fill="#15211c">$297<tspan font-size="16" fill="#5f6f68">/mo</tspan></text>
+    <text x="318" y="894" font-size="14" fill="#5f6f68">Busy clinics &amp; shops</text>
+
+    <rect x="540" y="790" width="220" height="120" rx="14" fill="#f1f7f4" stroke="#dbe9e3"/>
+    <text x="560" y="828" font-size="15" font-weight="700" fill="#5f6f68">MULTI-LOCATION</text>
+    <text x="560" y="868" font-size="30" font-weight="850" fill="#15211c">$497<tspan font-size="16" fill="#5f6f68">+/mo</tspan></text>
+    <text x="560" y="894" font-size="14" fill="#5f6f68">Multiple sites</text>
+  </g>
+  <text x="56" y="936" font-size="14" fill="#7a8a84">All plans include done-for-you setup &amp; local support · one-time setup fee · no long-term contract.</text>
+
+  <!-- CTA -->
+  <rect x="56" y="966" width="704" height="60" rx="14" fill="url(#mint)"/>
+  <text x="84" y="1004" font-size="20" font-weight="800" fill="#04140e">Book a free demo — hear Norra answer a call for your business.</text>
+
+  <text x="56" y="1046" font-size="15" fill="#5f6f68">norrahq.com   ·   sashikanth.devops@gmail.com</text>
+</svg>

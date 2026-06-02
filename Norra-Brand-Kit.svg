@@ -1,0 +1,49 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1a14"/><stop offset="1" stop-color="#06100c"/>
+    </linearGradient>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34D399"/><stop offset="1" stop-color="#7DEBC3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#bg)"/>
+
+  <!-- header / logo lockup -->
+  <text x="80" y="110" font-size="26" font-weight="700" letter-spacing="5" fill="#7DEBC3">BRAND KIT</text>
+  <g transform="translate(80,150)">
+    <rect x="0" y="0" width="96" height="96" rx="24" fill="url(#mint)"/>
+    <text x="48" y="68" text-anchor="middle" font-size="58" font-weight="800" fill="#04140e">N</text>
+    <text x="120" y="58" font-size="60" font-weight="800" fill="#eaf3ee">Norra</text>
+    <text x="122" y="92" font-size="22" font-weight="600" fill="#9ab0a6">Reception with a human touch, powered by AI.</text>
+  </g>
+  <line x1="80" y1="300" x2="1120" y2="300" stroke="#1f6e54" stroke-opacity="0.4" stroke-width="2"/>
+
+  <!-- colours -->
+  <text x="80" y="370" font-size="30" font-weight="800" fill="#eaf3ee">Colours</text>
+  <g transform="translate(80,400)">
+    <g transform="translate(0,0)"><rect width="160" height="150" rx="16" fill="#07120E" stroke="#1f6e54" stroke-width="1"/><text x="0" y="180" font-size="22" font-weight="700" fill="#eaf3ee">Deep</text><text x="0" y="208" font-size="20" fill="#9ab0a6">#07120E</text></g>
+    <g transform="translate(178,0)"><rect width="160" height="150" rx="16" fill="#15564A"/><text x="0" y="180" font-size="22" font-weight="700" fill="#eaf3ee">Forest</text><text x="0" y="208" font-size="20" fill="#9ab0a6">#15564A</text></g>
+    <g transform="translate(356,0)"><rect width="160" height="150" rx="16" fill="#34D399"/><text x="0" y="180" font-size="22" font-weight="700" fill="#eaf3ee">Mint</text><text x="0" y="208" font-size="20" fill="#9ab0a6">#34D399</text></g>
+    <g transform="translate(534,0)"><rect width="160" height="150" rx="16" fill="#7DEBC3"/><text x="0" y="180" font-size="22" font-weight="700" fill="#eaf3ee">Mint light</text><text x="0" y="208" font-size="20" fill="#9ab0a6">#7DEBC3</text></g>
+    <g transform="translate(712,0)"><rect width="160" height="150" rx="16" fill="#F4B860"/><text x="0" y="180" font-size="22" font-weight="700" fill="#eaf3ee">Amber</text><text x="0" y="208" font-size="20" fill="#9ab0a6">#F4B860</text></g>
+    <g transform="translate(890,0)"><rect width="160" height="150" rx="16" fill="#EAF3EE"/><text x="0" y="180" font-size="22" font-weight="700" fill="#eaf3ee">Ink</text><text x="0" y="208" font-size="20" fill="#9ab0a6">#EAF3EE</text></g>
+  </g>
+
+  <!-- typography -->
+  <text x="80" y="760" font-size="30" font-weight="800" fill="#eaf3ee">Typography</text>
+  <text x="80" y="820" font-size="60" font-weight="850" fill="#ffffff">Aa  Bold headlines</text>
+  <text x="80" y="880" font-size="34" font-weight="400" fill="#cfe0d8">Aa  Regular body text · Arial / Helvetica (system sans)</text>
+
+  <!-- tagline -->
+  <line x1="80" y1="950" x2="1120" y2="950" stroke="#1f6e54" stroke-opacity="0.4" stroke-width="2"/>
+  <text x="80" y="1020" font-size="30" font-weight="800" fill="#eaf3ee">Tagline</text>
+  <text x="80" y="1085" font-size="40" font-weight="700" fill="#7DEBC3">Reception with a human touch, powered by AI.</text>
+
+  <!-- persona + voice -->
+  <text x="80" y="1190" font-size="30" font-weight="800" fill="#eaf3ee">The receptionist</text>
+  <text x="80" y="1245" font-size="32" font-weight="500" fill="#cfe0d8">Her name is Norra. She sounds human; she's powered by AI.</text>
+
+  <text x="80" y="1340" font-size="30" font-weight="800" fill="#eaf3ee">Voice &amp; tone</text>
+  <text x="80" y="1395" font-size="32" font-weight="500" fill="#cfe0d8">Warm. Human. Confident. Plain-spoken — never cold or techy.</text>
+</svg>
