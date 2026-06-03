@@ -136,6 +136,12 @@
 </head>
 <body>
 
+<style>
+  .ctry-sw{display:inline-flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;vertical-align:middle}
+  .ctry-sw button{background:transparent;border:none;cursor:pointer;font-size:15px;border-radius:999px;padding:4px 9px;opacity:.45;line-height:1;transition:opacity .15s,background .15s}
+  .ctry-sw button.cur-on{background:var(--acc);opacity:1}
+</style>
+
 <header class="nav">
   <div class="wrap nav-in">
     <a href="/" class="brand"><span class="dot">N</span> Norra</a>
@@ -144,6 +150,10 @@
       <a href="#compare">Compare</a>
       <a href="#pricing">Pricing</a>
       <a href="/login">Log in</a>
+      <span class="ctry-sw" title="Choose your country">
+        <button type="button" class="ct-ca cur-on" onclick="setCountry('ca')" aria-label="Canada">🇨🇦</button>
+        <button type="button" class="ct-in" onclick="setCountry('in')" aria-label="India">🇮🇳</button>
+      </span>
       <a href="#demo" class="btn btn-primary">Book a demo</a>
     </nav>
   </div>
@@ -156,7 +166,7 @@
   <div class="wrap inner">
     <div class="badge">AI front desk for local business</div>
     <h1>A receptionist so natural, <span class="grad">callers won't know it's software.</span></h1>
-    <p class="sub">Norra answers your phone like your best front-desk hire — warm, human, never rushed. Underneath, it's AI: it knows your whole business by heart, never forgets, speaks four languages, and never sleeps.</p>
+    <p class="sub">Norra answers your phone like your best front-desk hire — warm, human, never rushed. Underneath, it's AI: it knows your whole business by heart, never forgets, <span data-ca="speaks four languages" data-in="speaks Telugu, Hindi &amp; more">speaks four languages</span>, and never sleeps.</p>
     <div class="hero-cta">
       <a href="#demo" class="btn btn-primary">Book a demo</a>
       <a href="#capabilities" class="btn btn-ghost">See what it does</a>
@@ -423,9 +433,9 @@
   <div class="wrap">
     <div class="sec-head"><div class="eyebrow">Built on trust</div><h2>Local, private, and accountable</h2></div>
     <div class="trust">
-      <div class="tcard"><h3>🔒 Privacy-first</h3><p>Compliant with local privacy laws (such as PHIPA in Ontario) for health clinics. Calls are recorded, transcribed, and summarized — collecting only what's needed to help the caller.</p></div>
+      <div class="tcard"><h3>🔒 Privacy-first</h3><p data-ca="Compliant with local privacy laws (such as PHIPA in Ontario) for health clinics. Calls are recorded, transcribed, and summarized — collecting only what's needed to help the caller." data-in="Built to respect India's DPDP Act for clinics and hospitals. Calls are recorded, transcribed, and summarized — collecting only what's needed to help the caller.">Compliant with local privacy laws (such as PHIPA in Ontario) for health clinics. Calls are recorded, transcribed, and summarized — collecting only what's needed to help the caller.</p></div>
       <div class="tcard"><h3>🤝 Honest by design</h3><p>Norra introduces itself as a virtual assistant and hands the call to a real person the moment someone asks. Human-sounding, never deceptive.</p></div>
-      <div class="tcard"><h3>📍 Local support</h3><p>Set up and supported by a real, local person — not a faceless ticket queue. We answer when you need us.</p></div>
+      <div class="tcard"><h3>📍 Local support</h3><p data-ca="Set up and supported by a real person in Milton, Ontario — not a faceless ticket queue. We answer when you need us." data-in="Set up and supported by a real person in Hyderabad — not a faceless ticket queue. We answer when you need us.">Set up and supported by a real person in Milton, Ontario — not a faceless ticket queue. We answer when you need us.</p></div>
     </div>
   </div>
 </section>
@@ -472,8 +482,8 @@
       .cur-btn.cur-on{background:var(--acc);color:#04140e}
     </style>
     <div class="curtoggle">
-      <button id="curUSD" class="cur-btn cur-on" onclick="setCurrency('usd')">🇨🇦 USD</button>
-      <button id="curINR" class="cur-btn" onclick="setCurrency('inr')">🇮🇳 INR</button>
+      <button type="button" class="cur-btn ct-ca cur-on" onclick="setCountry('ca')">🇨🇦 Canada (CAD)</button>
+      <button type="button" class="cur-btn ct-in" onclick="setCountry('in')">🇮🇳 India (INR)</button>
     </div>
     <div class="tiers">
       <div class="tier">
@@ -483,7 +493,7 @@
         <div class="inc">✓ Done-for-you setup included</div>
         <ul>
           <li><span class="tickdot">✓</span> 24/7 answering &amp; booking</li>
-          <li><span class="tickdot">✓</span> Missed-call text-back</li>
+          <li><span class="tickdot">✓</span> <span data-ca="Missed-call text-back (SMS)" data-in="Missed-call WhatsApp-back">Missed-call text-back (SMS)</span></li>
           <li><span class="tickdot">✓</span> Calendar integration</li>
           <li><span class="tickdot">✓</span> Call summaries</li>
           <li><span class="tickdot">✓</span> Local support</li>
@@ -522,12 +532,37 @@
     <p style="text-align:center;color:var(--ink);font-size:15px;margin-top:22px;font-weight:600">Most businesses make it back in just a couple of recovered bookings.</p>
     <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:6px">One-time setup fee · no long-term contract · cancel anytime.</p>
     <script>
-      function setCurrency(c){
-        document.querySelectorAll(".amt-val").forEach(function(el){ el.textContent = (c==="inr") ? el.getAttribute("data-inr") : el.getAttribute("data-usd"); });
-        var u=document.getElementById("curUSD"), i=document.getElementById("curINR");
-        if(u) u.classList.toggle("cur-on", c==="usd");
-        if(i) i.classList.toggle("cur-on", c==="inr");
+      function setCountry(c){
+        c = (c === "in") ? "in" : "ca";
+        // Prices (reuse the existing data-usd / data-inr attributes)
+        document.querySelectorAll(".amt-val").forEach(function(el){
+          el.textContent = (c === "in") ? el.getAttribute("data-inr") : el.getAttribute("data-usd");
+        });
+        // Text swaps for any element tagged with data-ca / data-in
+        document.querySelectorAll("[data-ca]").forEach(function(el){
+          var v = (c === "in") ? el.getAttribute("data-in") : el.getAttribute("data-ca");
+          if (v !== null) el.textContent = v;
+        });
+        // Highlight the active button(s) in both the header and pricing switches
+        document.querySelectorAll(".ct-ca").forEach(function(b){ b.classList.toggle("cur-on", c === "ca"); });
+        document.querySelectorAll(".ct-in").forEach(function(b){ b.classList.toggle("cur-on", c === "in"); });
+        // Default the Talk-to-Norra language to match the country (unless the visitor already picked one)
+        var tk = document.getElementById("tkLang");
+        if (tk && !tk.dataset.touched){ tk.value = (c === "in") ? "Telugu" : "English"; }
+        try { localStorage.setItem("norra_country", c); } catch(e){}
       }
+      function initCountry(){
+        var saved = null;
+        try { saved = localStorage.getItem("norra_country"); } catch(e){}
+        if (!saved){
+          var tz = "";
+          try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch(e){}
+          saved = /Kolkata|Calcutta/i.test(tz) ? "in" : "ca";   // auto-detect India by timezone
+        }
+        setCountry(saved);
+      }
+      if (document.readyState !== "loading") initCountry();
+      else document.addEventListener("DOMContentLoaded", initCountry);
     </script>
   </div>
 </section>
@@ -652,7 +687,7 @@ function submitDemo(e){
     <div class="tk-orb" id="tkOrb">N</div>
     <h3>Talk to Norra</h3>
     <p>Pick a language and have a live conversation with our AI receptionist.</p>
-    <select id="tkLang">
+    <select id="tkLang" onchange="this.dataset.touched=1">
       <option value="English">English</option>
       <option value="Hindi">हिन्दी · Hindi</option>
       <option value="Mandarin">中文 · Mandarin</option>

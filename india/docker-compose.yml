@@ -1,0 +1,18 @@
+services:
+  norra-india:
+    build: .
+    container_name: norra-india
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "7860:7860"
+
+  # Dev-only tunnel so Plivo can reach your laptop. In production, run the app
+  # behind a real domain + TLS (e.g. Caddy/Nginx) instead of ngrok.
+  # ngrok:
+  #   image: ngrok/ngrok:latest
+  #   command: http norra-india:7860
+  #   environment:
+  #     - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+  #   depends_on:
+  #     - norra-india

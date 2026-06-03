@@ -35,3 +35,8 @@ aws-credentials*
 Thumbs.db
 .idea/
 .vscode/
+india/.env
+india/.venv/
+__pycache__/
+*.pyc
+*.wav
