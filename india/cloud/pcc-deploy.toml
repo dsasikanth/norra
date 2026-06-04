@@ -1,0 +1,5 @@
+agent_name = "norra-telugu"
+secret_set = "norra-telugu-secrets"
+
+[scaling]
+  min_agents = 0

@@ -40,3 +40,4 @@ india/.venv/
 __pycache__/
 *.pyc
 *.wav
+india/cloud/.env

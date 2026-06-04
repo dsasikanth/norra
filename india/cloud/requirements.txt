@@ -1,0 +1,4 @@
+pipecat-ai[daily,sarvam,openai,silero]
+pipecatcloud
+python-dotenv
+loguru

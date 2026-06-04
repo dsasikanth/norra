@@ -119,7 +119,7 @@ async def run_bot(transport):
     stt, llm, tts = build_services()
 
     context = LLMContext()
-    context.add_message("system", SYSTEM_PROMPT)
+    context.add_message({"role": "system", "content": SYSTEM_PROMPT})
     user_agg, assistant_agg = LLMContextAggregatorPair(
         context,
         user_params=LLMUserAggregatorParams(vad_analyzer=SileroVADAnalyzer()),
@@ -140,7 +140,7 @@ async def run_bot(transport):
     @transport.event_handler("on_client_connected")
     async def _on_connected(transport, client):
         logger.info("Connected — greeting the caller in Telugu")
-        context.add_message("developer", GREETING_INSTRUCTION)
+        context.add_message({"role": "system", "content": GREETING_INSTRUCTION})
         await task.queue_frames([LLMRunFrame()])
 
     @transport.event_handler("on_client_disconnected")
