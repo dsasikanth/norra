@@ -25,7 +25,7 @@ MODEL = os.getenv("SARVAM_TTS_MODEL", "bulbul:v3")    # ritu is a v3 voice
 
 TEXT = (
     "నమస్కారం! సన్‌షైన్ క్లినిక్‌కి కాల్ చేసినందుకు ధన్యవాదాలు. "
-    "నేను నోర్రా. మీకు appointment book చేయాలా, లేదా doctor timings కావాలా?"
+    "నేను నోరా. మీకు appointment book చేయాలా, లేదా doctor timings కావాలా?"
 )
 
 if not KEY:
