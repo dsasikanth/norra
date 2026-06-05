@@ -140,7 +140,12 @@
   .ctry-sw{display:inline-flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;vertical-align:middle}
   .ctry-sw button{background:transparent;border:none;cursor:pointer;font-size:15px;border-radius:999px;padding:4px 9px;opacity:.45;line-height:1;transition:opacity .15s,background .15s}
   .ctry-sw button.cur-on{background:var(--acc);opacity:1}
+  .topbar{background:linear-gradient(90deg,rgba(244,184,96,.16),rgba(52,211,153,.16));border-bottom:1px solid rgba(244,184,96,.35);color:#f4d8a8;text-align:center;font-size:13.5px;font-weight:600;padding:9px 16px;line-height:1.5}
+  .topbar b{color:#fff}
+  .topbar a{color:#7debc3;font-weight:700;white-space:nowrap}
 </style>
+
+<div class="topbar">★ <b>Try Norra free for 30 days</b> — it answers every call, books every appointment, and never misses a customer. No setup fee, cancel anytime. <a href="#pricing">See plans →</a></div>
 
 <header class="nav">
   <div class="wrap nav-in">
@@ -475,7 +480,7 @@
   </style>
   <div class="wrap">
     <div class="sec-head"><div class="eyebrow">Pricing</div><h2>Done-for-you, not do-it-yourself</h2><p>Every plan includes setup, your calendar integration, and local support — no dashboards to wrangle.</p></div>
-    <div style="max-width:780px;margin:0 auto 22px;text-align:center;background:rgba(244,184,96,.1);border:1px solid rgba(244,184,96,.4);border-radius:14px;padding:14px 18px;color:#f4b860;font-weight:700;font-size:15px">★ Founding offer — first month free + free setup for our first clients.</div>
+    <div style="max-width:780px;margin:0 auto 22px;text-align:center;background:rgba(244,184,96,.1);border:1px solid rgba(244,184,96,.4);border-radius:14px;padding:14px 18px;color:#f4b860;font-weight:700;font-size:15px">★ Every plan starts with a free 30-day trial (up to 200 minutes) — full setup included, cancel anytime.</div>
     <style>
       .curtoggle{display:flex;justify-content:center;gap:4px;width:max-content;margin:0 auto 26px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px}
       .cur-btn{background:transparent;border:none;color:var(--muted);border-radius:999px;padding:9px 20px;font-size:14px;font-weight:700;cursor:pointer}
@@ -489,6 +494,7 @@
       <div class="tier">
         <div class="name">Starter</div>
         <div class="amt"><span class="amt-val" data-usd="$149" data-inr="₹2,500">$149</span><span>/mo</span></div>
+        <div class="mins" style="font-size:12.5px;color:var(--acc2);margin:-2px 0 8px;font-weight:600" data-ca="300 min included · then $0.50/min" data-in="300 min included · then ₹6/min">300 min included · then $0.50/min</div>
         <div class="for">Solo operators &amp; lower call volume.</div>
         <div class="inc">✓ Done-for-you setup included</div>
         <ul>
@@ -504,6 +510,7 @@
         <div class="pill">Most popular</div>
         <div class="name">Pro</div>
         <div class="amt"><span class="amt-val" data-usd="$297" data-inr="₹6,000">$297</span><span>/mo</span></div>
+        <div class="mins" style="font-size:12.5px;color:var(--acc2);margin:-2px 0 8px;font-weight:600" data-ca="1,000 min included · then $0.45/min" data-in="1,000 min included · then ₹5.50/min">1,000 min included · then $0.45/min</div>
         <div class="for">Busy clinics, shops &amp; restaurants.</div>
         <div class="inc">✓ Everything in Starter, plus</div>
         <ul>
@@ -518,6 +525,7 @@
       <div class="tier">
         <div class="name">Multi-location</div>
         <div class="amt"><span class="amt-val" data-usd="From $497" data-inr="From ₹12,000">From $497</span><span>/mo</span></div>
+        <div class="mins" style="font-size:12.5px;color:var(--acc2);margin:-2px 0 8px;font-weight:600" data-ca="2,500 min included · then $0.40/min" data-in="2,500 min included · then ₹5/min">2,500 min included · then $0.40/min</div>
         <div class="for">Multiple sites or teams.</div>
         <div class="inc">✓ Everything in Pro, plus</div>
         <ul>
@@ -703,32 +711,49 @@ function submitDemo(e){
     <button class="btn btn-ghost" id="tkEnd" style="display:none">End call</button>
   </div>
 </div>
+<script src="https://unpkg.com/@daily-co/daily-js"></script>
 <script type="module">
-  import { RetellWebClient } from "https://esm.sh/retell-client-js-sdk@2";
-  // After deploying norra-webcall-worker.js, set this to its URL:
-  const WEBCALL_API = "https://norra-webcall.sasikanthd-dba.workers.dev";
+  // One Gemini Live agent handles every language (Telugu, English, Hindi, Tamil…).
+  const NORRA_API = "https://norra-telugu.sasikanthd-dba.workers.dev";
+
   const $ = function(id){ return document.getElementById(id); };
   const bg=$("tkBg"), start=$("tkStart"), end=$("tkEnd"), status=$("tkStatus"), orb=$("tkOrb"), lang=$("tkLang");
-  const client = new RetellWebClient();
+  let daily = null;
+
   function reset(){ start.style.display="block"; start.disabled=false; end.style.display="none"; orb.classList.remove("live"); }
+  function onConnected(){ status.textContent="Connected — say hello! 🎙"; start.style.display="none"; end.style.display="block"; orb.classList.add("live"); }
+  function onEnded(){ status.textContent="Call ended. Thanks for trying Norra!"; reset(); }
+  function onError(e){ status.textContent="✕ "+((e&&(e.message||e.errorMsg))||"Something went wrong"); stopAll(); reset(); }
+  function stopAll(){
+    if(daily){ try{ daily.leave(); daily.destroy(); }catch(e){} daily=null; }
+    var a=$("tkBotAudio"); if(a) a.srcObject=null;
+  }
   function openModal(){ bg.style.display="grid"; }
-  function closeModal(){ try{ client.stopCall(); }catch(e){} reset(); status.textContent=""; bg.style.display="none"; }
+  function closeModal(){ stopAll(); reset(); status.textContent=""; bg.style.display="none"; }
   $("tkFab").onclick=openModal;
   $("tkX").onclick=closeModal;
   bg.onclick=function(e){ if(e.target===bg) closeModal(); };
+
   start.onclick=async function(){
-    status.textContent="Connecting… (allow your microphone)"; start.disabled=true;
+    status.textContent="Connecting you to Nora… this takes a few seconds. Please allow your microphone."; start.disabled=true;
     try{
-      const r=await fetch(WEBCALL_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language:lang.value})});
+      const r=await fetch(NORRA_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language:lang.value})});
       const d=await r.json();
-      if(!d.ok||!d.access_token) throw new Error((d.error&&(d.error.message||JSON.stringify(d.error)))||"Could not start the call");
-      await client.startCall({ accessToken:d.access_token });
+      if(!d.ok||!d.room) throw new Error((d.error&&(d.error.message||JSON.stringify(d.error)))||"Could not start the call");
+      daily=window.DailyIframe.createCallObject();
+      daily.on("track-started",function(ev){
+        if(ev.track&&ev.track.kind==="audio"&&ev.participant&&!ev.participant.local){
+          var a=$("tkBotAudio"); if(!a){ a=document.createElement("audio"); a.id="tkBotAudio"; a.autoplay=true; document.body.appendChild(a); }
+          a.srcObject=new MediaStream([ev.track]);
+        }
+      });
+      daily.on("joined-meeting",onConnected);
+      daily.on("left-meeting",onEnded);
+      daily.on("error",onError);
+      await daily.join({ url:d.room, token:d.token });
     }catch(e){ status.textContent="✕ "+(e.message||e); start.disabled=false; }
   };
-  end.onclick=function(){ try{ client.stopCall(); }catch(e){} };
-  client.on("call_started",function(){ status.textContent="Connected — say hello! 🎙"; start.style.display="none"; end.style.display="block"; orb.classList.add("live"); });
-  client.on("call_ended",function(){ status.textContent="Call ended. Thanks for trying Norra!"; reset(); });
-  client.on("error",function(err){ status.textContent="✕ "+((err&&err.message)||"Something went wrong"); try{ client.stopCall(); }catch(e){} reset(); });
+  end.onclick=function(){ stopAll(); onEnded(); };
 </script>
 </body>
 </html>

@@ -4,189 +4,214 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Norra — Demo Console</title>
+<script src="https://unpkg.com/@daily-co/daily-js"></script>
 <style>
-  :root{--bg:#07120e;--bg2:#0d1c16;--panel:rgba(255,255,255,.05);--line:rgba(255,255,255,.1);--ink:#eaf3ee;--muted:#9ab0a6;--acc:#34d399;--acc2:#7debc3;--amber:#f4b860;--bad:#ef6a6a;--radius:16px}
+  :root{--bg:#07120e;--bg2:#0d1c16;--panel:rgba(255,255,255,.05);--line:rgba(255,255,255,.1);--ink:#eaf3ee;--muted:#9ab0a6;--acc:#34d399;--acc2:#7debc3;--bad:#ef6a6a}
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(900px 500px at 80% -10%,#13352a,var(--bg) 60%);color:var(--ink);min-height:100vh}
-  .wrap{max-width:760px;margin:0 auto;padding:26px 20px 80px}
-  header{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-  .mark{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140e;display:grid;place-items:center;font-weight:900;font-size:19px}
-  header b{font-size:21px}
-  .sub{color:var(--muted);font-size:13px;margin:0 0 22px 52px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:16px}
-  .step{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
-  h2{margin:0 0 6px;font-size:20px}
-  p.lead{color:var(--muted);font-size:14px;margin:0 0 16px}
-  .ico{display:flex;gap:10px}
-  input{flex:1;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:13px 15px;font-size:15px}
-  input:focus{outline:none;border-color:var(--acc)}
-  .btn{border:none;border-radius:11px;padding:13px 20px;font-size:15px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140e;white-space:nowrap}
+  .wrap{max-width:680px;margin:0 auto;padding:24px 18px 80px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+  .mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140e;display:grid;place-items:center;font-weight:900;font-size:18px}
+  header b{font-size:20px}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 18px 50px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+  label{display:block;font-size:12px;color:var(--muted);margin:14px 0 5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  label:first-child{margin-top:0}
+  input,select,textarea{width:100%;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 13px;font-size:15px;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--acc)}
+  textarea{min-height:80px;resize:vertical;line-height:1.5}
+  .row{display:flex;gap:10px}
+  .row>div{flex:1}
+  .btn{border:none;border-radius:11px;padding:13px 20px;font-size:15px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04140e}
   .btn:disabled{opacity:.5;cursor:default}
-  .learned{margin-top:16px;display:none;background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.25);border-radius:12px;padding:14px}
-  .learned .t{font-size:12px;color:var(--acc2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-  .kv{font-size:14px;margin:3px 0}.kv b{color:#fff}
-  .hidden{display:none}
-  .phone{background:linear-gradient(135deg,#0e3b2e,#0a241c);border:1px solid var(--line);border-radius:var(--radius);padding:26px;text-align:center}
-  .phone .num{font-size:34px;font-weight:900;letter-spacing:.5px;margin:6px 0}
-  .phone .hint{color:#bfe6d7;font-size:14px}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
-  .chip{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;color:var(--ink)}
-  .calls .empty{color:var(--muted);font-size:13.5px;text-align:center;padding:14px}
-  .call{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;background:rgba(255,255,255,.03)}
-  .call:hover{border-color:rgba(52,211,153,.4)}
-  .call .top{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
-  .call .title{font-size:15px;font-weight:700;margin:4px 0}
-  .call .sum{font-size:13.5px;color:var(--muted);display:none}
-  .call.open .sum{display:block}
-  .status{font-size:13px;margin-top:10px;min-height:18px}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:700}
+  .urlrow{display:flex;gap:8px}
+  .urlrow input{flex:1}
+  .urlrow .btn-ghost{white-space:nowrap;padding:11px 14px;font-size:13px}
+  .status{font-size:13.5px;color:var(--acc2);min-height:18px;margin:0 0 4px;text-align:center}
   .gate{position:fixed;inset:0;background:rgba(7,18,14,.95);display:grid;place-items:center;z-index:50}
   .gate .box{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:26px;width:300px;text-align:center}
-  .reload{float:right;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+  .secthead{font-size:12px;color:var(--acc2);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin:4px 0 0}
 </style>
 </head>
 <body>
 
+<div class="gate" id="gate">
+  <div class="box">
+    <div class="mark" style="margin:0 auto 12px">N</div>
+    <div style="font-weight:800;margin-bottom:12px">Norra Demo Console</div>
+    <input id="pass" type="password" placeholder="Passcode" style="margin-bottom:10px">
+    <button class="btn" style="width:100%" onclick="unlock()">Enter</button>
+    <div id="gateerr" style="color:var(--bad);font-size:12px;margin-top:8px"></div>
+  </div>
+</div>
+
 <div class="wrap">
-  <header>
-    <div class="mark">N</div><b>Norra</b> <span style="color:var(--muted);font-size:13px">Demo Console</span>
-    <button class="reload" style="margin-left:auto;float:none" onclick="logout()">Log out</button>
-  </header>
-  <p class="sub">Build a live receptionist from any website in seconds — then have the prospect call it.</p>
+  <header><div class="mark">N</div><b>Norra</b> <span style="color:var(--muted);font-size:13px">Demo Console</span></header>
+  <p class="sub">Set up a live Nora for any business — then talk to her as their receptionist.</p>
 
   <div class="card">
-    <div class="step">Step 1</div>
-    <h2>Build the receptionist from a website</h2>
-    <p class="lead">Paste the prospect's website. Norra reads it and loads their business into the demo agent.</p>
-    <div class="ico">
-      <input id="url" placeholder="e.g. brontecreekphysio.com">
-      <button class="btn" id="buildBtn" onclick="buildReceptionist()">Build receptionist</button>
-    </div>
-    <div class="status" id="buildStatus"></div>
-    <div class="learned" id="learned">
-      <div class="t">Loaded into the agent</div>
-      <div id="learnedBody"></div>
-    </div>
-  </div>
-
-  <div class="card hidden" id="step2">
-    <div class="step">Step 2</div>
-    <h2>Hand them the phone</h2>
-    <div class="phone">
-      <div class="hint">Ask the prospect to call:</div>
-      <div class="num" id="demoNum">+1 (000) 000-0000</div>
-      <div class="hint">and talk to their own AI receptionist.</div>
-      <div class="chips">
-        <span class="chip">"What are your hours?"</span>
-        <span class="chip">"How much is a visit?"</span>
-        <span class="chip">"Can I book an appointment?"</span>
-        <span class="chip">"Are you a real person?"</span>
+    <div class="row">
+      <div>
+        <label>Business name</label>
+        <input id="bizName" placeholder="e.g. Sunshine Clinic">
+      </div>
+      <div>
+        <label>Type</label>
+        <select id="vertical">
+          <option value="clinic">Clinic / Healthcare</option>
+          <option value="real_estate">Real Estate</option>
+          <option value="restaurant">Restaurant</option>
+          <option value="salon">Salon / Spa</option>
+          <option value="home_services">Home / Auto Services</option>
+          <option value="general">Other</option>
+        </select>
       </div>
     </div>
+
+    <label>Have a website? Auto-fill from it (optional)</label>
+    <div class="urlrow">
+      <input id="bizUrl" placeholder="e.g. sunshineclinic.com">
+      <button class="btn-ghost" id="loadBtn" onclick="loadSite()">Load</button>
+    </div>
+    <div class="hint" id="loadHint">No website? Just fill the details below — that's all Nora needs.</div>
+
+    <div class="secthead" style="margin-top:18px">Business details</div>
+
+    <label>Working hours</label>
+    <input id="hours" placeholder="Mon-Sat 10am-8pm, closed Sunday">
+
+    <label>Doctors / staff / agents</label>
+    <input id="people" placeholder="Dr. Rao (GP, mornings), Dr. Sharma (Pediatrics, evenings)">
+
+    <label>Services / offerings &amp; prices</label>
+    <textarea id="services" placeholder="General consultation — Rs 500&#10;Vaccination — Rs 300&#10;Basic lab tests"></textarea>
+
+    <label>Address</label>
+    <input id="address" placeholder="Road No. 5, Banjara Hills, Hyderabad">
+
+    <label>Anything else Nora should know (optional)</label>
+    <textarea id="notes" style="min-height:60px" placeholder="Walk-ins welcome. Parking available. Appointments preferred."></textarea>
+
+    <label>Today's update / temporary instruction <span style="text-transform:none;color:var(--acc2)">(overrides the above)</span></label>
+    <textarea id="liveNote" style="min-height:50px" placeholder="Doctor is out for the next 2 days.&#10;If Mr. Rao calls, ask him to call back tomorrow."></textarea>
+
+    <div class="row" style="margin-top:16px">
+      <div>
+        <label>Language</label>
+        <select id="language">
+          <option value="Telugu">తెలుగు · Telugu</option>
+          <option value="Hindi">हिन्दी · Hindi</option>
+          <option value="English">English</option>
+          <option value="Tamil">தமிழ் · Tamil</option>
+          <option value="Kannada">ಕನ್ನಡ · Kannada</option>
+          <option value="Malayalam">മലയാളം · Malayalam</option>
+        </select>
+      </div>
+      <div>
+        <label>Voice</label>
+        <select id="voice">
+          <option value="Aoede">Aoede — warm female</option>
+          <option value="Kore">Kore — clear female</option>
+          <option value="Leda">Leda — bright female</option>
+          <option value="Zephyr">Zephyr — bright female</option>
+          <option value="Puck">Puck — friendly male</option>
+          <option value="Charon">Charon — calm male</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" style="width:100%;margin-top:16px" id="startBtn" onclick="startCall()">🎙 Talk to Nora</button>
   </div>
 
-  <div class="card hidden" id="step3">
-    <div class="step">Step 3</div>
-    <h2>Watch the call land <button class="reload" onclick="loadCalls()">refresh</button></h2>
-    <p class="lead">The call and its AI summary appear here the moment it ends.</p>
-    <div class="calls" id="calls"><div class="empty">Waiting for the call...</div></div>
+  <div class="card" id="callCard" style="display:none">
+    <div class="status" id="status"></div>
+    <div id="dailyContainer" style="width:100%;height:340px;border-radius:12px;overflow:hidden;margin:10px 0;background:#0a1713"></div>
+    <button class="btn-ghost" id="endBtn" style="width:100%" onclick="endCall()">End call</button>
   </div>
 </div>
 
 <script>
-var CFG = {
-  INGEST_API: "https://norra-ingest.sasikanthd-dba.workers.dev",
-  SYNC_API:   "https://norra-sync.sasikanthd-dba.workers.dev",
-  CALLS_API:  "https://norra-calls.sasikanthd-dba.workers.dev",
-  DEMO_AGENT_ID: "agent_a7ad89e63bd789b7f9a3fd4d59",
-  DEMO_LLM_ID:   "llm_92045c321f4fd144eadf0b99ff98",
-  DEMO_PHONE: "+1 (647) 360-3026"
-};
+  var CFG = {
+    PASSCODE: "norra",
+    NORRA_API: "https://norra-telugu.sasikanthd-dba.workers.dev",
+    INGEST_API: "https://norra-ingest.sasikanthd-dba.workers.dev"
+  };
+  var $ = function(id){ return document.getElementById(id); };
+  function unlock(){ if($("pass").value === CFG.PASSCODE){ $("gate").style.display="none"; } else { $("gateerr").textContent="Wrong passcode."; } }
 
-// Require login — if there's no session, send them to the login page.
-var NORRA_SESSION = null;
-try{ NORRA_SESSION = localStorage.getItem("norra_session"); }catch(e){}
-if(!NORRA_SESSION){ window.location.replace("/login"); }
+  // Assemble the structured fields into the info text Nora uses.
+  function buildInfo(){
+    var L = [];
+    var v = function(id){ return $(id).value.trim(); };
+    if(v("hours"))    L.push("Working hours: " + v("hours"));
+    if(v("people"))   L.push("Doctors / staff: " + v("people"));
+    if(v("services")) L.push("Services & prices:\n" + v("services"));
+    if(v("address"))  L.push("Address: " + v("address"));
+    if(v("notes"))    L.push(v("notes"));
+    return L.join("\n");
+  }
 
-function logout(){
-  try{ localStorage.removeItem("norra_session"); }catch(e){}
-  window.location.href="/login";
-}
+  // Optional: auto-fill the fields from a website.
+  function loadSite(){
+    var url = $("bizUrl").value.trim();
+    if(!url){ $("loadHint").textContent="Enter a website URL first."; return; }
+    if(!CFG.INGEST_API){ $("loadHint").textContent="Auto-load not set up — type the details below."; return; }
+    $("loadBtn").disabled = true; $("loadHint").textContent = "Reading " + url + " …";
+    fetch(CFG.INGEST_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:url})})
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(!d || !d.ok || !d.knowledge){ throw new Error((d&&d.error)||"Could not read that site"); }
+        var k = d.knowledge;
+        if(k.business_name && !$("bizName").value) $("bizName").value = k.business_name;
+        if(k.hours && !$("hours").value) $("hours").value = k.hours;
+        if(k.address && !$("address").value) $("address").value = k.address;
+        if(k.services && k.services.length && !$("services").value){
+          $("services").value = k.services.map(function(s){ return s.name + (s.price ? " — " + s.price : ""); }).join("\n");
+        }
+        if(k.faqs && k.faqs.length && !$("notes").value){
+          $("notes").value = k.faqs.map(function(f){ return "Q: " + f.q + " A: " + f.a; }).join("\n");
+        }
+        $("loadHint").textContent = "Loaded — review the fields and edit as needed, then Talk to Nora.";
+      })
+      .catch(function(e){ $("loadHint").textContent = "Couldn't auto-read it (" + (e.message||e) + "). Just fill the details below."; })
+      .finally(function(){ $("loadBtn").disabled = false; });
+  }
 
-document.getElementById("demoNum").textContent = CFG.DEMO_PHONE;
+  var daily = null;
+  function setStatus(t){ $("status").textContent = t; }
+  function showCall(on){ $("callCard").style.display = on ? "block" : "none"; $("startBtn").disabled = on; }
+  function stopAll(){ if(daily){ try{ daily.leave(); daily.destroy(); }catch(e){} daily=null; } }
 
-var SAMPLE_KNOWLEDGE = { business_name:"Demo Clinic", business_type:"physiotherapy clinic",
-  hours:"Mon-Fri 8am-6pm", services:[{name:"Initial assessment",price:"$110"},{name:"Follow-up",price:"$85"}],
-  faqs:[{q:"Do I need a referral?",a:"No referral needed."}] };
-
-function setStatus(t,c){ var s=document.getElementById("buildStatus"); s.textContent=t; s.style.color=c||"#9ab0a6"; }
-
-function buildReceptionist(){
-  var url=document.getElementById("url").value.trim();
-  if(!url){ setStatus("Enter a website URL first.","#ef6a6a"); return; }
-  document.getElementById("buildBtn").disabled=true;
-  setStatus("Reading "+url+" and building the receptionist...");
-  ingest(url).then(function(knowledge){
-    showLearned(knowledge);
-    return sync(knowledge);
-  }).then(function(){
-    setStatus("Ready - your receptionist knows this business.","#34d399");
-    document.getElementById("step2").classList.remove("hidden");
-    document.getElementById("step3").classList.remove("hidden");
-    document.getElementById("step2").scrollIntoView({behavior:"smooth"});
-    startPolling();
-  }).catch(function(e){
-    setStatus("Error: "+e.message,"#ef6a6a");
-  }).finally(function(){ document.getElementById("buildBtn").disabled=false; });
-}
-
-function readJson(r){ return r.text().then(function(t){ if(!t) throw new Error("Worker "+r.status+": empty response"); try{ return JSON.parse(t); }catch(e){ throw new Error("Worker "+r.status+": "+t.slice(0,180)); } }); }
-function ingest(url){
-  if(!CFG.INGEST_API){ return delay(1600).then(function(){ return SAMPLE_KNOWLEDGE; }); }
-  return fetch(CFG.INGEST_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:url})})
-    .then(readJson)
-    .then(function(d){ if(!d.ok) throw new Error(d.error||"Could not read that site"); return d.knowledge; });
-}
-function sync(knowledge){
-  if(!CFG.SYNC_API){ return delay(700); }
-  return fetch(CFG.SYNC_API,{method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({client:{retell_llm_id:CFG.DEMO_LLM_ID,retell_agent_id:CFG.DEMO_AGENT_ID},knowledge:knowledge,publish:true})})
-    .then(readJson)
-    .then(function(d){ if(!d.ok) throw new Error(d.error||"Could not update the agent"); });
-}
-function showLearned(k){
-  var b=document.getElementById("learnedBody");
-  var svc=(k.services&&k.services.length)?k.services.length:0;
-  var fq=(k.faqs&&k.faqs.length)?k.faqs.length:0;
-  b.innerHTML =
-    '<div class="kv"><b>'+(k.business_name||"This business")+'</b>'+(k.business_type?" - "+k.business_type:"")+'</div>'+
-    (k.hours?'<div class="kv">Hours: '+k.hours+'</div>':'')+
-    '<div class="kv">'+svc+' services and '+fq+' FAQs loaded</div>';
-  document.getElementById("learned").style.display="block";
-}
-
-var pollTimer=null;
-function startPolling(){ loadCalls(); if(pollTimer)clearInterval(pollTimer); pollTimer=setInterval(loadCalls,10000); }
-function loadCalls(){
-  if(!CFG.CALLS_API){ return delay(2500).then(function(){ renderCalls(sampleCalls()); }); }
-  fetch(CFG.CALLS_API+"?agent="+encodeURIComponent(CFG.DEMO_AGENT_ID))
-    .then(readJson).then(function(d){ renderCalls((d&&d.calls)||[]); }).catch(function(){});
-}
-function sampleCalls(){ return [{title:"Caller asked hours and booked a follow-up", caller:"+1 905-555-0182", time:"just now",
-  summary:"The caller asked about hours and pricing, then booked a follow-up for Thursday at 2pm. Confirmation texted."}]; }
-function renderCalls(calls){
-  var el=document.getElementById("calls");
-  if(!calls.length){ el.innerHTML='<div class="empty">Waiting for the call...</div>'; return; }
-  el.innerHTML="";
-  calls.forEach(function(c){
-    var d=document.createElement("div"); d.className="call";
-    d.onclick=function(){ d.classList.toggle("open"); };
-    d.innerHTML='<div class="top"><span>'+(c.caller||"Caller")+'</span><span>'+(c.time||"")+'</span></div>'+
-      '<div class="title">'+(c.title||"Call")+'</div>'+
-      '<div class="sum">'+(c.summary||"")+'</div>';
-    el.appendChild(d);
-  });
-}
-function delay(ms){ return new Promise(function(res){ setTimeout(res,ms); }); }
+  function startCall(){
+    var info = buildInfo();
+    if(!info){ $("loadHint").textContent="Add at least the hours or services so Nora has something to say."; return; }
+    var profile = {
+      name: $("bizName").value.trim() || "this business",
+      vertical: $("vertical").value,
+      info: info,
+      notes: $("liveNote").value.trim(),
+      language: $("language").value,
+      voice: $("voice").value
+    };
+    showCall(true); setStatus("Connecting to Nora… the first call can take a few seconds. Allow your microphone.");
+    fetch(CFG.NORRA_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)})
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(!d.ok || !d.room) throw new Error((d.error&&(d.error.message||JSON.stringify(d.error)))||"Could not start the call");
+        daily = window.DailyIframe.createFrame($("dailyContainer"), {
+          iframeStyle:{ width:"100%", height:"100%", border:"0" },
+          showLeaveButton:false, showFullscreenButton:false
+        });
+        daily.on("joined-meeting", function(){ setStatus("Connected — say నమస్కారం to Nora! 🎙"); });
+        daily.on("left-meeting", function(){ setStatus("Call ended."); showCall(false); });
+        daily.on("error", function(e){ setStatus("✕ " + ((e&&e.errorMsg)||"error")); stopAll(); showCall(false); });
+        return daily.join({ url:d.room, token:d.token });
+      })
+      .catch(function(e){ setStatus("✕ " + (e.message||e)); stopAll(); showCall(false); });
+  }
+  function endCall(){ stopAll(); setStatus("Call ended."); showCall(false); }
 </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 agent_name = "norra-telugu"
-secret_set = "norra-telugu-secrets"
+region = "ap-south"
+secret_set = "norra-secrets-apsouth"
 
 [scaling]
   min_agents = 0
